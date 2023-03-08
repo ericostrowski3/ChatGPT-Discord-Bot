@@ -13,23 +13,30 @@ bot = commands.Bot(command_prefix="$", intents=intents)
 
 # Set up OpenAI chat function
 def openai_chat(prompt):
+    messages = [
+        {"role": "system", "content": "You are a helpful assistant that works through Discord."}
+    ]
+    message=prompt
+    messages.append({"role": "user", "content": message})
+    
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
-        prompt=prompt,
-        max_tokens=1024,
-        n=1,
-        stop=None,
-        temperature=0.5,
+        messages=messages
+
     )
-    message = response.choices[0].text.strip()
-    return message
+    reply = response["choices"][0]["message"]["content"]
+    messages.append({"Role": "assistant", "content": reply})
+    return reply
+    print(messages)
 
 # Define bot commands
 @bot.command()
-async def chat(ctx, *, message):
-    prompt = f"User: {message}\nAI:"
-    response = openai_chat(prompt)
-    await ctx.send(response)
+async def chat(ctx, *, prompt):
+    
+    reply = openai_chat(prompt)
+    await ctx.send(reply)
+
 
 # Run the bot
 bot.run(TOKEN)
+
