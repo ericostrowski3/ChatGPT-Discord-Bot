@@ -89,4 +89,4 @@ bot.run(TOKEN)
 
 
 
-#current idea: in chat command, see if api_key is already defined. If its not, tell user. If it is, do nothing. It would then be declared globally. would not need to set it every single time in the openai_chat function
+#current idea: yeah lets move to node.js lol https://github.com/CappeDiem/Discord.js-bot-template
